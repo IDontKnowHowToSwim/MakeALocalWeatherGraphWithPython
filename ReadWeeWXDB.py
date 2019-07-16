@@ -2,6 +2,7 @@
 
 import sqlite3
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 def fahrenheitToCelsis(degree_of_fahrenheit):
   if degree_of_fahrenheit is None:
@@ -25,13 +26,13 @@ for row in c.execute(sql_cmd):
   timestamp = row[0]
   temp = row[1:6]
   humid = row[6:]
-  print ("{}, {}, {}".format(datetime.fromtimestamp(timestamp), [fahrenheitToCelsis(x) for x in temp] , humid))
   timestamps.append(datetime.fromtimestamp(timestamp))
   temps.append(fahrenheitToCelsis(temp[0]))
   humids.append(humid[0])
-
-print (timestamps)
-print (temps)
-print (humids)
-
 connect.close()
+
+fig, ax = plt.subplots()
+ax.plot(timestamps, temps, label="temperature")
+ax.plot(timestamps, humids, label="humid")
+
+plt.show()
